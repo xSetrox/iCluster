@@ -83,7 +83,7 @@ while true do
         directx.draw_text(0.829, 0.87, math.ceil(rpm*5000), 5, 0.8, white, true)
         -- gear text 
         gear = entities.get_current_gear(v_hdl)
-        if gear == 0 and vecs.y < 0 then 
+        if gear == 0 and vecs.y < 0 then
             gear = "R"
         end
         if VEHICLE.GET_VEHICLE_ENGINE_HEALTH(vehicle) < 1000 then
@@ -108,7 +108,7 @@ while true do
         end
 
         directx.draw_text(0.764, 0.87, gear, 5, 1.2, white, true)
-        if VEHICLE.IS_VEHICLE_IN_BURNOUT(vehicle) or vecs.x > 3 then 
+        if VEHICLE.IS_VEHICLE_IN_BURNOUT(vehicle) or math.abs(vecs.x) > 3 then 
             directx.draw_texture(traction_control, 0.01, 0.01, 0.5, 0.5, 0.77, 0.92, 0, orange)
 
         end
