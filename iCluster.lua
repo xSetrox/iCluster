@@ -65,6 +65,9 @@ while true do
             measured_max = max_kph
         end
         local speed_rotation = (measured_speed/measured_max)*0.32
+        if speed_rotation >= 0.75 then 
+            speed_rotation = 0.75
+        end
         local rpm = entities.get_rpm(v_hdl)
         if rpm == 1 then 
             -- rev limiter simulation
@@ -80,7 +83,7 @@ while true do
         -- rpm needle
         directx.draw_texture(needle, 0.023, 0.023, 0.88, 0.125, 0.83, 0.82, tach_rotation, white)
         -- rpm text
-        directx.draw_text(0.829, 0.87, math.ceil(rpm*5000), 5, 0.8, white, true)
+        directx.draw_text(0.829, 0.87, math.ceil(rpm*6000), 5, 0.8, white, true)
         -- gear text 
         gear = entities.get_current_gear(v_hdl)
         if gear == 0 and vecs.y < 0 then
