@@ -140,9 +140,9 @@ while true do
         VEHICLE.GET_VEHICLE_LIGHTS_STATE(vehicle, lights, high_lights)
         if memory.read_byte(lights) == 1 then 
             if memory.read_byte(high_lights) == 1 then 
-                directx.draw_texture(high_beam, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.4, lights_y_pos, 0, blue)
+                directx.draw_texture(high_beam, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.04, lights_y_pos, 0, blue)
             else
-                directx.draw_texture(low_beam, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.3, lights_y_pos, 0, green)
+                directx.draw_texture(low_beam, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.03, lights_y_pos, 0, green)
             end
         end
         any_tires_burst = false 
@@ -152,7 +152,7 @@ while true do
             end
         end
         if any_tires_burst then 
-            directx.draw_texture(tpms, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.8, lights_y_pos, 0, orange)
+            directx.draw_texture(tpms, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.08, lights_y_pos, 0, orange)
         end
 
         directx.draw_text(gear_x_pos, gear_y_pos, gear, 5, 1.2, white, true)
