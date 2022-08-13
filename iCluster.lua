@@ -15,6 +15,51 @@ menu.list_select(menu.my_root(), "Units", {"iclusterunits"}, "", {"MPH", "KPH"},
     unit = index 
 end)
 
+speedometer_x_pos = 0.700
+menu.slider_float(menu.my_root(), "Speedometer X position", {}, "", 0, 1000, 700, 1, function(s)
+    speedometer_x_pos = s * 0.001
+end)
+
+speedometer_y_pos = 0.800
+menu.slider_float(menu.my_root(), "Speedometer Y position", {}, "", 0, 1000, 800, 1, function(s)
+    speedometer_y_pos = s * 0.001
+end)
+
+
+tachometer_x_pos = 0.830
+menu.slider_float(menu.my_root(), "Tachometer X position", {}, "", 0, 1000, 830, 1, function(s)
+    tachometer_x_pos = s * 0.001
+end)
+
+tachometer_y_pos = 0.818
+menu.slider_float(menu.my_root(), "Tachometer Y position", {}, "", 0, 1000, 818, 1, function(s)
+    tachometer_y_pos = s * 0.001
+end)
+
+gear_x_pos = 0.764
+menu.slider_float(menu.my_root(), "Gear X position", {}, "", 0, 1000, 764, 1, function(s)
+    gear_x_pos = s * 0.001
+end)
+
+gear_y_pos = 0.870
+menu.slider_float(menu.my_root(), "Gear Y position", {}, "", 0, 1000, 870, 1, function(s)
+    gear_y_pos = s * 0.001
+end)
+
+lights_x_pos = 0.660
+menu.slider_float(menu.my_root(), "Instruments X position", {}, "", 0, 1000, 660, 1, function(s)
+    lights_x_pos = s * 0.001
+end)
+
+lights_y_pos = 0.920
+menu.slider_float(menu.my_root(), "Instruments Y position", {}, "", 0, 1000, 920, 1, function(s)
+    lights_y_pos = s * 0.001
+end)
+
+
+
+
+
 
 white = {
     r = 1,
@@ -74,30 +119,30 @@ while true do
             rpm = rpm + math.random(-2, 2)*0.01
         end
         local tach_rotation = rpm*0.45
-        directx.draw_texture(speedometer_case, 0.05, 0.05, 0.5, 0.5, 0.7, 0.8, 0, white)
-        directx.draw_texture(needle, 0.023, 0.023, 0.88, 0.125, 0.70, 0.82, speed_rotation, white)
+        directx.draw_texture(speedometer_case, 0.05, 0.05, 0.5, 0.5, speedometer_x_pos, speedometer_y_pos, 0, white)
+        directx.draw_texture(needle, 0.023, 0.023, 0.88, 0.125, speedometer_x_pos, speedometer_y_pos+0.015, speed_rotation, white)
         -- speed text also i guess what
-        directx.draw_text(0.699, 0.87, math.ceil(measured_speed), 5, 0.8, white, true)
+        directx.draw_text(speedometer_x_pos, speedometer_y_pos+0.065, math.ceil(measured_speed), 5, 0.8, white, true)
         -- rpm gauge
-        directx.draw_texture(tach_case, 0.05, 0.05, 0.5, 0.5, 0.83, 0.8, 0, white)
+        directx.draw_texture(tach_case, 0.05, 0.05, 0.5, 0.5, tachometer_x_pos, tachometer_y_pos-0.015, 0, white)
         -- rpm needle
-        directx.draw_texture(needle, 0.023, 0.023, 0.88, 0.125, 0.83, 0.82, tach_rotation, white)
+        directx.draw_texture(needle, 0.023, 0.023, 0.88, 0.125, tachometer_x_pos, tachometer_y_pos, tach_rotation, white)
         -- rpm text
-        directx.draw_text(0.829, 0.87, math.ceil(rpm*6000), 5, 0.8, white, true)
+        directx.draw_text(tachometer_x_pos, tachometer_y_pos+0.05, math.ceil(rpm*6000), 5, 0.8, white, true)
         -- gear text 
         gear = entities.get_current_gear(v_hdl)
         if gear == 0 and vecs.y < 0 then
             gear = "R"
         end
         if VEHICLE.GET_VEHICLE_ENGINE_HEALTH(vehicle) < 1000 then
-            directx.draw_texture(check_engine_light, 0.01, 0.01, 0.5, 0.5, 0.66, 0.92, 0, orange)
+            directx.draw_texture(check_engine_light, 0.01, 0.01, 0.5, 0.5, lights_x_pos, lights_y_pos, 0, orange)
         end
         VEHICLE.GET_VEHICLE_LIGHTS_STATE(vehicle, lights, high_lights)
         if memory.read_byte(lights) == 1 then 
             if memory.read_byte(high_lights) == 1 then 
-                directx.draw_texture(high_beam, 0.01, 0.01, 0.5, 0.5, 0.71, 0.92, 0, blue)
+                directx.draw_texture(high_beam, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.4, lights_y_pos, 0, blue)
             else
-                directx.draw_texture(low_beam, 0.01, 0.01, 0.5, 0.5, 0.69, 0.92, 0, green)
+                directx.draw_texture(low_beam, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.3, lights_y_pos, 0, green)
             end
         end
         any_tires_burst = false 
@@ -107,12 +152,12 @@ while true do
             end
         end
         if any_tires_burst then 
-            directx.draw_texture(tpms, 0.01, 0.01, 0.5, 0.5, 0.74, 0.92, 0, orange)
+            directx.draw_texture(tpms, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.8, lights_y_pos, 0, orange)
         end
 
-        directx.draw_text(0.764, 0.87, gear, 5, 1.2, white, true)
+        directx.draw_text(gear_x_pos, gear_y_pos, gear, 5, 1.2, white, true)
         if VEHICLE.IS_VEHICLE_IN_BURNOUT(vehicle) or math.abs(vecs.x) > 3 then 
-            directx.draw_texture(traction_control, 0.01, 0.01, 0.5, 0.5, 0.77, 0.92, 0, orange)
+            directx.draw_texture(traction_control, 0.01, 0.01, 0.5, 0.5, lights_x_pos + 0.11, lights_y_pos, 0, orange)
 
         end
         
